@@ -11,7 +11,10 @@ namespace VA.Security.Identity
     {
         public static IdentityBuilder AddIdentityConfiguration(this IServiceCollection services)
         {
-            if (services == null) throw new ArgumentException(nameof(services));
+            if (services == null)
+            {
+                throw new ArgumentException(nameof(services));
+            }
 
             return services.AddDefaultIdentity<IdentityUser>()
                 .AddRoles<IdentityRole>()
@@ -21,7 +24,10 @@ namespace VA.Security.Identity
 
         public static IdentityBuilder AddDefaultIdentity(this IServiceCollection services, Action<IdentityOptions> options = null)
         {
-            if (services == null) throw new ArgumentException(nameof(services));
+            if (services == null)
+            {
+                throw new ArgumentException(nameof(services));
+            }
 
             return services.AddDefaultIdentity<IdentityUser>(options);
         }
@@ -29,7 +35,10 @@ namespace VA.Security.Identity
         public static IdentityBuilder AddCustomIdentity<TIdentityUser>(this IServiceCollection services, Action<IdentityOptions> options = null)
             where TIdentityUser : IdentityUser
         {
-            if (services == null) throw new ArgumentException(nameof(services));
+            if (services == null)
+            {
+                throw new ArgumentException(nameof(services));
+            }
 
             return services.AddDefaultIdentity<TIdentityUser>(options);
         }
@@ -38,7 +47,10 @@ namespace VA.Security.Identity
             where TIdentityUser : IdentityUser<TKey>
             where TKey : IEquatable<TKey>
         {
-            if (services == null) throw new ArgumentException(nameof(services));
+            if (services == null)
+            {
+                throw new ArgumentException(nameof(services));
+            }
 
             return services.AddDefaultIdentity<TIdentityUser>(options);
         }
@@ -74,14 +86,25 @@ namespace VA.Security.Identity
         public static IServiceCollection AddIdentityEntityFrameworkContextConfiguration(
             this IServiceCollection services, Action<DbContextOptionsBuilder> options)
         {
-            if (services == null) throw new ArgumentException(nameof(services));
-            if (options == null) throw new ArgumentException(nameof(options));
+            if (services == null)
+            {
+                throw new ArgumentException(nameof(services));
+            }
+
+            if (options == null)
+            {
+                throw new ArgumentException(nameof(options));
+            }
+
             return services.AddDbContext<SecurityAppDbContext>(options);
         }
 
         public static IApplicationBuilder UseAuthConfiguration(this IApplicationBuilder app)
         {
-            if (app == null) throw new ArgumentException(nameof(app));
+            if (app == null)
+            {
+                throw new ArgumentException(nameof(app));
+            }
 
             return app.UseAuthentication()
                       .UseAuthorization();
