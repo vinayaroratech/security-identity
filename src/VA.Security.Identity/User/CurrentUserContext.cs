@@ -5,11 +5,11 @@ using System.Security.Claims;
 
 namespace VA.Security.Identity.User
 {
-    public class AspNetUser : IAspNetUser
+    public class CurrentUserContext : ICurrentUserContext
     {
         private readonly IHttpContextAccessor _accessor;
 
-        public AspNetUser(IHttpContextAccessor accessor)
+        public CurrentUserContext(IHttpContextAccessor accessor)
         {
             _accessor = accessor;
         }

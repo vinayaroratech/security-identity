@@ -5,10 +5,10 @@ namespace VA.Security.Identity.User
 {
     public static class Abstractions
     {
-        public static IServiceCollection AddAspNetUserConfiguration(this IServiceCollection services)
+        public static IServiceCollection AddCurrentUserContextConfiguration(this IServiceCollection services)
         {
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            services.AddScoped<IAspNetUser, AspNetUser>();
+            services.AddScoped<ICurrentUserContext, CurrentUserContext>();
 
             return services;
         }

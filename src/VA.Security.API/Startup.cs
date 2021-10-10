@@ -1,16 +1,12 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using VA.Security.API.Config;
+using VA.Security.Identity.User;
+using VA.Security.Identity;
 
 namespace VA.Security.API
 {
@@ -21,34 +17,45 @@ namespace VA.Security.API
             Configuration = configuration;
         }
 
-        public IConfiguration Configuration { get; }
+        private IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
             services.AddControllers();
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "VA.Security.API", Version = "v1" });
-            });
+
+            // When you just want the default configuration
+            services.AddDefaultIdentityConfiguration(Configuration);
+
+
+            // When you have specifics configurations (see inside this method)
+            //services.AddCustomIdentityConfiguration(Configuration);
+
+            // When you have specifics configurations (with Key type [see inside this method])
+            //services.AddCustomIdentityAndKeyConfiguration(Configuration);
+
+            // Setting the interactive AspNetUser (logged in)
+            services.AddCurrentUserContextConfiguration();
+
+            services.AddSwaggerConfiguration();
+
+            services.AddDependencyInjectionConfiguration();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public static void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "VA.Security.API v1"));
             }
+
+            app.UseSwaggerConfiguration();
 
             app.UseHttpsRedirection();
 
             app.UseRouting();
 
-            app.UseAuthorization();
+            // Custom VA.Security abstraction here!
+            app.UseAuthConfiguration();
 
             app.UseEndpoints(endpoints =>
             {

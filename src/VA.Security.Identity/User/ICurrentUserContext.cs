@@ -5,7 +5,7 @@ using System.Security.Claims;
 
 namespace VA.Security.Identity.User
 {
-    public interface IAspNetUser
+    public interface ICurrentUserContext
     {
         string Name { get; }
         Guid GetUserId();

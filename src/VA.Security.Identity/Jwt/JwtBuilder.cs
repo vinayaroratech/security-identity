@@ -79,7 +79,7 @@ namespace VA.Security.Identity.Jwt
 
         public string BuildToken()
         {
-            JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
+            JwtSecurityTokenHandler tokenHandler = new();
             byte[] key = Encoding.ASCII.GetBytes(_appJwtSettings.SecretKey);
             SecurityToken token = tokenHandler.CreateToken(new SecurityTokenDescriptor
             {
@@ -87,8 +87,7 @@ namespace VA.Security.Identity.Jwt
                 Audience = _appJwtSettings.Audience,
                 Subject = _identityClaims,
                 Expires = DateTime.UtcNow.AddHours(_appJwtSettings.Expiration),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key),
-                    SecurityAlgorithms.HmacSha256Signature)
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             });
 
             return tokenHandler.WriteToken(token);
@@ -96,7 +95,7 @@ namespace VA.Security.Identity.Jwt
 
         public UserResponse<TKey> BuildUserResponse()
         {
-            UserResponse<TKey> user = new UserResponse<TKey>
+            UserResponse<TKey> user = new()
             {
                 AccessToken = BuildToken(),
                 ExpiresIn = TimeSpan.FromHours(_appJwtSettings.Expiration).TotalSeconds,
