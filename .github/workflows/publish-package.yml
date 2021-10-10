@@ -2,10 +2,10 @@ name: Master - Publish packages
 
 on:
   push:
-    branches: [ master ]
+    branches: [ main ]
 
 env:
-  PACKAGE_MAJOR_VERSION: 5
+  PACKAGE_MAJOR_VERSION: 1
   PACKAGE_MINOR_VERSION: 0
   CURRENT_REPO_URL: https://github.com/${{ github.repository }}
 
